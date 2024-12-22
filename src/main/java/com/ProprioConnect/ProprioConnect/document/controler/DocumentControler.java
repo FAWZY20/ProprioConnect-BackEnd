@@ -13,7 +13,6 @@ public interface DocumentControler {
     @PostMapping("/document")
     public ResponseEntity addFile(@RequestParam("auteur") String auteur,
                                   @RequestParam("sujet") String sujet,
-                                  @RequestParam("nomFichier") String nomFichier,
                                   @RequestParam("file") MultipartFile contenu) throws Exception;
 
     @GetMapping("/document/{documentId}")
