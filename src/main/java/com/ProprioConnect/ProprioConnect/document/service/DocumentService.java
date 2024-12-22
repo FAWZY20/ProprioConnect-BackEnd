@@ -24,13 +24,13 @@ public class DocumentService implements DocumentControler {
     }
 
     @Override
-    public ResponseEntity addFile(String auteur, String sujet, String nomFichier, MultipartFile contenu) throws Exception {
+    public ResponseEntity addFile(String auteur, String sujet, MultipartFile contenu) throws Exception {
         try{
             Document document = new Document();
 
             document.setAuteur(auteur);
             document.setSujet(sujet);
-            document.setNomFichier(nomFichier);
+            document.setNomFichier(contenu.getOriginalFilename());
             document.setContenu(contenu.getBytes());
 
             documentRepository.save(document);
@@ -41,8 +41,6 @@ public class DocumentService implements DocumentControler {
             throw new Exception("le fichier a eu du mal a etre enregistrer");
         }
     }
-
-
 
     @Override
     public ResponseEntity getDocument(Long documentId) throws Exception {
@@ -60,9 +58,10 @@ public class DocumentService implements DocumentControler {
         Document document = documentRepository.findDocumentById(documentId);
         try{
           InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(document.getContenu()));
-
+          String type = this.checkTypeFile(document.getNomFichier());
+          System.out.println(type);
           HttpHeaders headers = new HttpHeaders();
-          headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + document.getNomFichier() + ".docx");
+          headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + document.getNomFichier() + "." + type);
 
           return ResponseEntity.ok()
                   .headers(headers)
@@ -83,5 +82,10 @@ public class DocumentService implements DocumentControler {
             e.printStackTrace();
             throw new Exception("le fichier n'a pas etait trouver");
         }
+    }
+
+    public String checkTypeFile(String fileName){
+        String[] nameTab = fileName.split("\\.");
+        return nameTab[nameTab.length - 1];
     }
 }
