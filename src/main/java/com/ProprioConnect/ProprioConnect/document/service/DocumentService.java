@@ -24,11 +24,12 @@ public class DocumentService implements DocumentControler {
     }
 
     @Override
-    public ResponseEntity addFile(String auteur, String sujet, MultipartFile contenu) throws Exception {
+    public ResponseEntity addFile(Long auteur, Long destinataire, String sujet, MultipartFile contenu) throws Exception {
         try{
             Document document = new Document();
 
             document.setAuteur(auteur);
+            document.setDestinataire(destinataire);
             document.setSujet(sujet);
             document.setNomFichier(contenu.getOriginalFilename());
             document.setContenu(contenu.getBytes());
@@ -88,4 +89,5 @@ public class DocumentService implements DocumentControler {
         String[] nameTab = fileName.split("\\.");
         return nameTab[nameTab.length - 1];
     }
+
 }

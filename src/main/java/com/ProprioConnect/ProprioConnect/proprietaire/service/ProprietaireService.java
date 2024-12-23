@@ -5,6 +5,7 @@ import com.ProprioConnect.ProprioConnect.proprietaire.model.Proprietaire;
 import com.ProprioConnect.ProprioConnect.proprietaire.repository.ProprietaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,15 +13,19 @@ public class ProprietaireService implements ProprietaireControler {
 
     private final ProprietaireRepository proprietaireRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public ProprietaireService(ProprietaireRepository proprietaireRepository) {
+    public ProprietaireService(ProprietaireRepository proprietaireRepository, PasswordEncoder passwordEncoder) {
         this.proprietaireRepository = proprietaireRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public ResponseEntity addProprietaire(Proprietaire proprietaire) throws Exception {
         try {
             if (proprietaireRepository.findByEmail(proprietaire.getEmail()) == null){
+                proprietaire.setMdp(passwordEncoder.encode(proprietaire.getMdp()));
                 proprietaireRepository.save(proprietaire);
                 return ResponseEntity.ok("l'utilisateur a bien etait ajouter");
             } else {

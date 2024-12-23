@@ -11,7 +11,8 @@ import java.io.File;
 public interface DocumentControler {
 
     @PostMapping("/document")
-    public ResponseEntity addFile(@RequestParam("auteur") String auteur,
+    public ResponseEntity addFile(@RequestParam("auteur") Long auteur,
+                                  @RequestParam("destinataire") Long destinataire,
                                   @RequestParam("sujet") String sujet,
                                   @RequestParam("file") MultipartFile contenu) throws Exception;
 

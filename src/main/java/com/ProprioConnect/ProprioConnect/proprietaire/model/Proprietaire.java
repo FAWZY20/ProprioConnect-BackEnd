@@ -31,11 +31,11 @@ public class Proprietaire {
     private String adresse;
     @Column(name = "date_inscription")
     private Date date_inscription = new Date();
-    @JsonManagedReference
+    @JsonManagedReference("proprietaire-locataires")
     @OneToMany(mappedBy = "proprietaire", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Locataire> locataires;
 
-    @JsonManagedReference
+    @JsonManagedReference("proprietaire-appartements")
     @OneToMany(mappedBy = "proprietaire", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appartement> appartements;
 

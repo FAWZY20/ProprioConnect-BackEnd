@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "locataire")
@@ -35,11 +34,12 @@ public class Locataire implements Serializable {
     @Column(name = "date_inscription")
     private LocalDate date_inscription =  LocalDate.now();
 
-    @JsonBackReference
+    @JsonBackReference("proprietaire-locataires")
     @ManyToOne
     @JoinColumn(name = "proprietaire_id")
     private Proprietaire proprietaire;
-    @JsonManagedReference
+
+    @JsonManagedReference("locataire-appartements")
     @OneToOne(mappedBy = "locataire", cascade = CascadeType.ALL, orphanRemoval = true)
     private Appartement appartement;
 

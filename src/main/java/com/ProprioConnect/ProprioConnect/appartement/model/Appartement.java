@@ -52,11 +52,12 @@ public class Appartement implements  Serializable{
     @Column(name = "description")
     private String description;
 
-    @JsonBackReference
+    @JsonBackReference("proprietaire-appartements")
     @ManyToOne
-    @JoinColumn(name = "proprietaire_id", nullable = false)
+    @JoinColumn(name = "proprietaire_id")
     private Proprietaire proprietaire;
-    @JsonBackReference
+
+    @JsonBackReference("locataire-appartements")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "locataire_id", referencedColumnName = "id")
     private Locataire locataire;
