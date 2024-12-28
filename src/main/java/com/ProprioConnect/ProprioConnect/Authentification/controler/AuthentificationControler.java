@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public interface AuthentificationControler {
 
-    @PostMapping("/login")
-    public ResponseEntity authentificate(@RequestParam("email") String email,
+    @PostMapping("/login/proprietaire")
+    public ResponseEntity authentificateProprietaire(@RequestParam("email") String email,
                                            @RequestParam("mdp") String mdp);
 
+    @PostMapping("/login/locataire")
+    public ResponseEntity authentificateLocataire(@RequestParam("email") String email,
+                                                     @RequestParam("mdp") String mdp);
 
 }

@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AuthentificationService implements AuthentificationControler {
 
@@ -31,22 +34,29 @@ public class AuthentificationService implements AuthentificationControler {
     }
 
     @Override
-    public ResponseEntity authentificate(String email, String mdp) {
-        Locataire locataire = locataireRepository.findLocataireByEmail(email);
+    public ResponseEntity authentificateProprietaire(String email, String mdp) {
         Proprietaire proprietaire = proprietaireRepository.findByEmail(email);
+
+        if(proprietaire != null){
+            if (!passwordEncoder.matches(mdp, proprietaire.getMdp())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe incorrect");
+            }
+            String token = jwtUtils.generateToken(proprietaire.getEmail());
+            return ResponseEntity.ok(token);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe incorrect");
+        }
+    }
+
+    @Override
+    public ResponseEntity authentificateLocataire(String email, String mdp) {
+        Locataire locataire = locataireRepository.findLocataireByEmail(email);
 
         if (locataire != null){
             if (!passwordEncoder.matches(mdp, locataire.getMdp())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe incorrect");
             }
             String token = jwtUtils.generateToken(locataire.getEmail());
-            return ResponseEntity.ok(token);
-        }
-        if(proprietaire != null){
-            if (!passwordEncoder.matches(mdp, proprietaire.getMdp())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe incorrect");
-            }
-            String token = jwtUtils.generateToken(proprietaire.getEmail());
             return ResponseEntity.ok(token);
         }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe incorrect");
