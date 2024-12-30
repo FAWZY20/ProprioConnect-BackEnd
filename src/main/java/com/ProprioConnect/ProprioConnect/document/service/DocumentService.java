@@ -44,10 +44,32 @@ public class DocumentService implements DocumentControler {
     }
 
     @Override
-    public ResponseEntity getDocument(Long documentId) throws Exception {
+    public ResponseEntity getDocumentById(Long documentId) throws Exception {
         try{
            Document document = documentRepository.findDocumentById(documentId);
            return  ResponseEntity.ok(document);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("le fichier n'a pas etait trouver");
+        }
+    }
+
+    @Override
+    public ResponseEntity getDocumentByDestinataireId(Long destinataireId) throws Exception {
+        try{
+            Document document = documentRepository.findDocumentByDestinataire(destinataireId);
+            return  ResponseEntity.ok(document);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("le fichier n'a pas etait trouver");
+        }
+    }
+
+    @Override
+    public ResponseEntity getDocumentByauteurId(Long auteurId) throws Exception {
+        try{
+            Document document = documentRepository.findDocumentByAuteur(auteurId);
+            return  ResponseEntity.ok(document);
         }catch (Exception e){
             e.printStackTrace();
             throw new Exception("le fichier n'a pas etait trouver");

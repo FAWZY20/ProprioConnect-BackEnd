@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository;
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     Document findDocumentById(Long documentId);
+
+    Document findDocumentByDestinataire(Long destinataire);
+
+    Document findDocumentByAuteur(Long auteur);
 }

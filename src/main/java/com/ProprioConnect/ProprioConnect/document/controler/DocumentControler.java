@@ -17,7 +17,14 @@ public interface DocumentControler {
                                   @RequestParam("file") MultipartFile contenu) throws Exception;
 
     @GetMapping("/document/{documentId}")
-    public ResponseEntity getDocument(@PathVariable("documentId") Long documentId) throws Exception;
+    public ResponseEntity getDocumentById(@PathVariable("documentId") Long documentId) throws Exception;
+
+
+    @GetMapping("/document/destinataire/{destinataireId}")
+    public ResponseEntity getDocumentByDestinataireId(@PathVariable("destinataireId") Long destinataireId) throws Exception;
+
+    @GetMapping("/document/auteur/{auteurId}")
+    public ResponseEntity getDocumentByauteurId(@PathVariable("auteurId") Long auteurId) throws Exception;
 
 
     @GetMapping("/document/dowload/{documentId}")
